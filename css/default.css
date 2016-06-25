@@ -1,0 +1,64 @@
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#map_canvas {
+	height: 100%;
+	width:100%
+}
+#tabs {
+	max-width: 535px;
+	max-height: 320px;
+	overflow-x: hidden;
+}
+
+.sum_table1{
+	width: 180px;	
+}
+.sum_table2{
+	word-wrap:break-word;
+}
+.same-frame {
+	width: 515px;
+	height: 180px;	
+}
+.nexttab-1, .nexttab-2, .nexttab-3, .nexttab-4, .nexttab-5 {
+	position: absolute;
+	right: 8px;
+	bottom: 2px;
+}
+/*.next_submit {
+	position: absolute;
+	right: 13px;
+	bottom: 8px;
+}*/
+.nexttab_2, .nexttab_3, .nexttab_4, .nexttab_5, .nexttab_6 {
+	position: absolute;
+	right: 55px;
+	bottom: 2px;
+}
+.nexttab2 {
+	position: absolute;
+	right: 48px;
+	bottom: 2px;
+}
+@media print {
+	html, body {
+		height: auto;
+	}
+
+	#map_canvas {
+		height: 650px;
+	}
+}
+#Comments {
+	height: 89px;
+	width: 299px;
+}
+#Comments_text {
+	height: 82px;
+	width: 280px;
+}
+
