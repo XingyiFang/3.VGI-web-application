@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Crowdsourced Geospatial Data</title>
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+<script type="text/javascript">
+function init() {
+
+	$.ajax({
+		type : "POST",
+		url : "php/obstacleids.php",
+		success : function(response) {	
+				$('#obs_id').html(response);
+				}
+		});
+};
+</script>
+<script type="text/javascript">
+function click_ori(){
+	var obs = $('#obs_id').val();
+	//alert(obs);
+	$.ajax({
+		type : "POST",
+		url : "php/obsinfo.php",
+		data : {
+		id: obs
+		},
+		success : function(response) {	
+				$('#obstacles').html(response);
+				//$('#mod').html(response);
+				}
+		});
+};
+
+
+function calculate_position(){
+	alert($("#obstacles_id").text());
+};
+function edit_rep(value){
+	//alert(value);
+	window.open("records.html?"+value);
+}
+function submit_mod(){
+	var obs_name = $('#obs_id').val();
+	$.ajax({
+		type : "POST",
+		url : "php/change_obs_status.php",
+		data : {
+			name: obs_name,
+		},
+		success : function(response) {	
+			location.reload()
+			}
+		});
+};
+</script>
+</head>
+<body onload="init()">
+<div id="container" style="width:1250px; min-width:700px;">
+<div id="header" style="background-color:#43a2ca;">
+<h1 style="margin-bottom:0;">Records</h1></div>
+<div id="menu" style="width:200px;float:left;border-right-color:#000000;border-right-width:1px;border-right-style:solid;min-height:500px">
+<br/><br/><b>All obstacles</b><br/>
+<select id='obs_id'></select>
+<br/>
+<button type="button" onclick="click_ori()">Submit</button>
+<br/><br/>
+
+</div>
+<div id="content" style="background-color:#EEEEEE;float:left;min-height:500px">
+<table>
+<tr>
+<td valign="top"><div id="obstacles"></div></br><button type="button" onclick="submit_mod()">delete/hide this obstacle</button></td>
+</tr>
+</table>
+</div>
+
+<div id="footer" style="background-color:#43a2ca;clear:both;text-align:center;">
+Crowdsourced Geospatial Data application</div>
+
+</div>
+ 
+</body>
+</html>

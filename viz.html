@@ -1,0 +1,138 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Crowdsourced Geospatial Data</title>
+		<link rel='stylesheet' href='css/jquery-ui.css' />
+		
+	<link class='include' rel='stylesheet' type='text/css' href='charts/dist/jquery.jqplot.min.css' />
+    <link type='text/css' rel='stylesheet' href='charts/dist/examples/syntaxhighlighter/styles/shCoreDefault.min.css' />
+    <link type='text/css' rel='stylesheet' href='charts/dist/examples/syntaxhighlighter/styles/shThemejqPlot.min.css' />
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+		<!-- <script src='js/jquery-1.6.4.js'></script> --> 
+		<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+		
+		<!-- <script src='js/jquery-1.6.4.min.js'></script> -->
+		<script src="js/jquery.form.js"></script>
+		<!--charts-->
+		
+   <script type='text/javascript' src='charts/dist/examples/syntaxhighlighter/scripts/shCore.min.js'></script>
+   <script class='include' type='text/javascript' src='charts/dist/jquery.jqplot.min.js'></script>
+   <script type='text/javascript' src='charts/dist/examples/syntaxhighlighter/scripts/shBrushJScript.min.js'></script>
+   <script type='text/javascript' src='charts/dist/examples/syntaxhighlighter/scripts/shBrushXml.min.js'></script> 
+   
+   <script class='include' type='text/javascript' src='charts/dist/plugins/jqplot.logAxisRenderer.min.js'></script>
+    <script class='include' type='text/javascript' src='charts/dist/plugins/jqplot.canvasTextRenderer.min.js'></script>
+    <script class='include' type='text/javascript' src='charts/dist/plugins/jqplot.canvasAxisLabelRenderer.min.js'></script>
+    <script class='include' type='text/javascript' src='charts/dist/plugins/jqplot.canvasAxisTickRenderer.min.js'></script>
+    <script class='include' type='text/javascript' src='charts/dist/plugins/jqplot.dateAxisRenderer.min.js'></script>
+    <script class='include' type='text/javascript' src='charts/dist/plugins/jqplot.categoryAxisRenderer.min.js'></script>
+    <script class='include' type='text/javascript' src='charts/dist/plugins/jqplot.barRenderer.min.js'></script>
+	<script class='include' type='text/javascript' src='charts/dist/plugins/jqplot.pointLabels.min.js'></script>
+	<script type='text/javascript' src='charts/dist/examples/axisLabelsRotatedText.js'></script>
+		<!-- <script src='http://code.jquery.com/jquery-1.9.1.js'></script> -->
+		<script src='http://code.jquery.com/ui/1.10.2/jquery-ui.js'></script>
+		<script src="js/jquery-ui-timepicker-addon.js"></script>
+		<script src="js/jquery-ui-sliderAccess.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/default.css">
+		<link rel="stylesheet" type="text/css" href="css/navigation_bar.css">
+		<link rel="stylesheet" type="text/css" href="css/jquery.boxy.css">
+		<link rel="stylesheet" type="text/css" href="css/jquery-ui-timepicker-addon.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<script src="js/jquery.boxy.js"></script>
+		<script src="js/initial_viz.js"></script>
+		<script src="js/navigation.js"></script>
+		<script src="js/infobutton.js"></script>
+		<style>
+			.center {
+				margin-left: auto;
+				margin-right: auto;
+				padding:10px;
+			}
+		</style>
+		<style>
+			#slider2{width: 800px;}
+			.steps-2 {
+			border: 1px solid transparent; /*follows #slider2 style for sizing purposes */
+			width: 800px; 
+			position: relative; 
+			height: 30px;
+			}
+			.tick { 
+				border: 1px solid transparent; /*follows slide handle style for sizing purposes*/
+				position: absolute;
+				width: 1.2em;
+				margin-left: -.6em;
+				text-align:center;
+				left: 0;
+			}
+		</style>
+	</head>
+	<body style="font-size:75%;" onload="initialize()">
+	<table>
+		<tr><td colspan="2" style="text-align:center; font-size:16px;"><h2>Crowdsourced Geospatial Data --- Geovisualization</h2></td></tr>
+		<tr>
+			<td width="800px" height="600px" class="center">
+				<div id="map_canvas"></div>
+			</td>
+			<td width="600px" valign="top" style="text-align:center; color: grey">
+				<h2>Charts & Diagram</h2>
+				<div id="chart1"></div>
+				<div id="chart2"></div>
+			</td>
+		</tr>
+		<tr >
+			<td width="800px" style="padding-top:10px; padding-left:40px; padding-right:40px">
+				<!--<p>
+				  <label for="amount">Time of Day:</label>
+				  <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+				</p>
+				<div id="slider-range-min"></div><br/><br/>
+				<p>
+				  <label for="amount-quality">Quality Score:</label>
+				  <input type="text" id="amount-quality" readonly style="border:0; color:#f6931f; font-weight:bold;">
+				</p>
+				<div id="slider-range-quality"></div> -->
+				<!---sliders-->
+				<div style="width:808px;display:block;">
+					<p>
+						<label for="amount1">Quality Score:</label>
+						<input type="text" id="amount1" style="border: 0 none;border-radius: 4px 4px 4px 4px;color: #F6931F;padding-left: 5px;width: 100px;">
+					</p>
+
+					<div id="slider1" style="width:800px;" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"></div>
+					<div id="slider_label1" class="steps-2">
+						<span class='tick' style='left: 0%;'>|<br>0</span>
+						<span class='tick' style='left: 25%;'>|<br>25</span>
+						<span class='tick' style='left: 50%;'>|<br>50</span>
+						<span class='tick' style='left: 75%;'>|<br>75</span>
+						<span class='tick' style='left: 100%;'>|<br>100</span>
+					</div>
+				</div>
+				
+				<div style="width:808px;display:block;">
+					<p>
+						<label for="amount2">Time of Day:</label>
+						<input type="text" id="amount2" style="border: 0 none;border-radius: 4px 4px 4px 4px;color: #F6931F;padding-left: 5px;width: 100px;">
+					</p>
+
+					<div id="slider2" style="width:800px;" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"></div>
+					<div id="slider_label2" class="steps-2"></div>
+				</div>
+			</td>
+			<td id="checkboxs" width="600px"><h2 style="color:grey;text-align:center; padding:20px">Elements (select 1-2 elements to generate the charts)</h2>
+				<form name="input" action="php/viz.php" method="get" style="font-size:16px;">
+					<input type="checkbox" name="element" value="month" checked>Recent 6 Months</input>&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="checkbox" name="element" value="week">Recent 8 weeks</input>&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="checkbox" name="element" value="Year">Recent 5 days</input><br>
+					<input type="checkbox" name="element" value="Quality" checked>Quality Scores</input>&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="checkbox" name="element" value="location">Source: Campus/City/County Official</input>&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="checkbox" name="element" value="crowdsourced">Source: Crowdsourced</input><br>
+					<input type="submit" value="Submit">
+				</form>
+			</td>
+		</tr>
+	</table>	
+	</body>
+</html>

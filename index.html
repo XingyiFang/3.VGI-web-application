@@ -1,0 +1,291 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Crowdsourced Geospatial Data</title>
+		<link rel='stylesheet' href='css/jquery-ui.css' />
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+		<!-- <script src='js/jquery-1.6.4.js'></script> --> 
+		<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+		
+		<!-- <script src='js/jquery-1.6.4.min.js'></script> -->
+		<script src="js/jquery.form.js"></script>
+		<!-- <script src='http://code.jquery.com/jquery-1.9.1.js'></script> -->
+		<script src='http://code.jquery.com/ui/1.10.2/jquery-ui.js'></script>
+		<script src="js/jquery-ui-timepicker-addon.js"></script>
+		<script src="js/jquery-ui-sliderAccess.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/default.css">
+		<link rel="stylesheet" type="text/css" href="css/navigation_bar.css">
+		<link rel="stylesheet" type="text/css" href="css/jquery.boxy.css">
+		<link rel="stylesheet" type="text/css" href="css/jquery-ui-timepicker-addon.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<script src="js/jquery.boxy.js"></script>
+		<script src="js/initial.js"></script>
+		<script src="js/navigation.js"></script>
+		<script src="js/infobutton.js"></script>
+		<style>
+			#myForm {
+				display: block;
+				margin: 0 0;
+				padding: 15px;
+				width: 150px
+			}
+			#progress {
+				position: relative;
+				width: 150px;
+				border: 1px solid #ddd;
+				padding: 1px;
+				border-radius: 3px;
+			}
+			#bar {
+				background-color: #B4F5B4;
+				width: 0%;
+				height: 20px;
+				border-radius: 3px;
+			}
+			#percent {
+				position: absolute;
+				display: inline-block;
+				top: 3px;
+				left: 48%;
+			}
+		</style>
+	</head>
+	<body style="font-size:75%;" onload="initialize()">
+	<table style="width:100%;height:100%">
+		<tr>
+			<td id="lefttd" style="width: 16%; vertical-align:text-top;">
+				<table style="width:100%; font-family:Arial,Helvetica,sans-serif;">
+					<tr style="background-color:#238b45"><td style="text-align:center;padding:5px;color:white" colspan="2"><h2>Welcome!</h2></td></tr>
+					<tr style="font-size: 14px;"><td colspan="2" style="padding:5px">We are creating a tool to report obstacles on GMU Fairfax campus, and support the navigation for our community with disabilities... and <strong>we need your help!</strong></td></tr>
+					<tr><td>For more information about the research click <a href="#" target="_blank">here</a></td><td><a href="http://www.gmu.edu" target="_blank"><img src="mason-logo.png" alt="gmu" width="75px"></a></td></tr>
+					<tr style="background-color:#238b45"><td style="text-align:center;padding:5px;color:white" colspan="2"><h2>Filter by status</h2></td></tr>
+					<tr><td style="width:100%" colspan="2" align="center">
+						<table><tr>
+							<td colspan="3">
+							<input type="checkbox" id="records_layer" checked>
+							&nbsp;Reports</input></td><td>
+							<input type="checkbox" id="obstacles_layer" checked>
+							&nbsp;Obstacles</input></td>
+						</tr>
+						<tr>
+							<td>
+							<input type="checkbox" id="records_1" checked>
+							</input></td><td><img alt="" src="images/caution_underreview.png" /></td><td><label>Under Review</label></td><td><img alt="" src="images/accesdenied.png" /></td>
+						</tr>
+						<tr>
+							<td>
+							<input type="checkbox" id="records_2" checked>
+							</input></td><td><img alt="" src="images/caution_process.png" /></td><td><label>Confirmed</label></td><td></td>
+						</tr>
+						<tr>
+							<td>
+							<input type="checkbox" id="records_6" checked>
+							</input></td><td><img alt="" src="images/official.png" /></td><td><label>Official Reports</label></td><td></td>
+						</tr>
+						<tr>
+							<td>
+							<input type="checkbox" id="records_5" checked>
+							</input></td><td><img alt="" src="images/caution_test.png" /></td><td><label>Closed</label></td><td></td>
+						</tr>
+						</table>
+					</td></tr>
+					<tr style="background-color:#238b45"><td style="text-align:center;padding:5px;color:white" colspan="2"><h2>Report new obstacle</h2></td></tr>
+					<tr><td colspan="2" style="padding:5px">Please, complete all the information in the following tabs.<br/>To learn how to complete the form go to <a href="train/HowitWorks.mp4" target="_blank">'How it works'</a><br/><br/><a style="color:#67a9cf">KEY:</a></td></tr>
+					<tr><td colspan="2" style="color:#67a9cf;border-style:dotted none;" align="center" ><img src="images/Information_icon.png" width="12" height="12" alt="infoicon">Click for more information<br/><a style="color:black">*</a> This information is required</td></tr>
+					<tr bordercolor="#FFFFFF" bgcolor="#EBEBEB" >
+						<td style=" padding-top:5px" colspan="2">
+						<div align="center">
+							User ID:	<input id='use_id' type='text' value='' size="20" maxlength="10"/>	*
+						</div>
+						<div style="alignment-adjust:central; font-size:10pt; color: #8F9BC3;"><img src="images/Information_icon.png" width="12" height="12" alt="infoicon" class='id_des'/>More Information...<p id='id_des' style='display:none'>Create a unique User ID (6-8 characters), and use it every time you submit a report.</p>
+						</div><p></p></td>
+					</tr>
+				</table>
+				<!-- tabs -->
+				<div id="accordion">
+				<!-- time and location -->
+				  <h3 id="time_loc">Time & Location</h3>
+				  <div>
+					<table style="border-spacing:0px">
+						<tr>
+							<td colspan="3" align="center"><div style="background-color:#deebf7">When did you observe the obstacle?	<img src="images/Information_icon.png" width="12" height="12" alt="infoicon" class='time_des'/></div>
+								<div style="color: #8F9BC3;"><p id='time_des' style='display:none;'>Select the date and the approximate time when you first saw the obstacle.</p></div>
+							</td>
+						</tr>
+						<tr bordercolor="#FFFFFF">
+							<td style="padding:5px" colspan="3">
+							<div align="center">
+								<input type='text' name='datetimepicker' id='datetimepicker' value=''/>
+							</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3" align="center"><div style="background-color:#deebf7">Where is it?	<img src="images/Information_icon.png" width="12" height="12" alt="infoicon" class='obs_des'/></div>
+								<div style="color: #8F9BC3;"><p id='obs_des' style='display:none'>Move & place the L icon in the exact location where the obstacle is. Zoom in for a more detailed map.</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td id='address1' colspan='3' style="alignment-adjust:central; font-family: cambria; font-size:7pt; color: #666;display:none">Move to obtain the address</td>
+						</tr>
+						<tr>
+							<td id='lat1' colspan="3" style='alignment-adjust:central; font-family: cambria; font-size:7pt; color: #666; display:none'></td>
+						</tr>
+						<tr>
+							<td rowspan="2">Drag it to the exact location of the obstacle <img id="find_icon" title="click to find the location of L icon" src="images/icon.png" width="20px"><img style="padding-left:5px"id="faultL" title="Have you placed the location icon in the right place?" src="images/fault.png" width="20px"><img style="display:none; padding-left:5px" id="correctL" title="" src="images/correct.jpg" width="20px"></td>
+							<td colspan="2">
+								<div align="center"><textarea id='location_com' class="location_com" name="ObstacleLocationDes" cols="15" rows="5" style="font-size:12px; font-family: cambria;font-style:italic; color:#999">Describe the Location</textarea>
+								</div></td>
+						</tr>
+						<tr>
+							<td><div style="font-family: cambria; font-size:10pt; color: #8F9BC3">
+								<p style= "color: black; font-size:10pt">
+									<textarea id='input_address' class="input_address" name="ObstacleLocation" cols="12" rows="2" style="font-family:cambria; font-size:12px; font-style:italic; color:#999">Search place</textarea>																											
+									</br>
+								</p>
+							</div></td>
+							<td><img id="geolocate" style="cursor: pointer" title="search place" src="Search-icon.png" width="20px"></td>
+						</tr>
+					</table>
+					<table style="width:100%"><tr><td width="50%" align="center" bgcolor="#fe9929"><p style="cursor: pointer"></p></td><td align="center" bgcolor="#fe9929"><p id="continue1" style="cursor: pointer">Continue &#8681;</p></td></tr></table>
+				  </div>
+				 <!-- obstacle details -->
+				  <h3 id="obs_detail">Obstacle Details</h3>
+				  <div>
+					<table style="width:100%;border-spacing:0px">
+						<tr>
+							<td colspan="2" align="center"><div style="background-color:#deebf7;">Obstacle Type*	<img src="images/Information_icon.png" width="12" height="12" alt="infoicon" class=''/></div>
+								<div style="color: #8F9BC3;"><p id='' style='display:none;'></p></div>
+							</td>
+						</tr>
+						<tr bordercolor="#FFFFFF">
+							<td style="padding:5px" colspan="2">
+								<div align="center">
+									<select id='selType' name='D1' multiple>
+									<option>sidewalk obstruction</option>
+									<option>construction detour</option>
+									<option>entrance/exit problem</option>
+									<option>poor surface condition</option>
+									<option>crowd/event</option>
+									<option>other</option>
+									</select>
+								</div>								
+							</td>
+						</tr>
+						<tr style='display:none;'>
+							<td colspan="2" align="center"><div style="background-color:#deebf7;">Obstacle impact	<img src="images/Information_icon.png" width="12" height="12" alt="infoicon" class=''/></div>
+								<div style="color: #8F9BC3;"><p id='' style='display:none;'></p></div>
+							</td>
+						</tr>
+						<tr style='display:none;'>
+							<td colspan="2">
+								<div align="center"><select id='typeImpact' name='D1'>
+									<option></option>
+									<option>visually-impaired</option>
+									<option>mobility-impaired</option>
+									<option>both</option><option>neither</option>
+									<option>do not know</option>
+									</select>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center"><div style="background-color:#deebf7;"> Decribe the obstacle(optional)	<img src="images/Information_icon.png" width="12" height="12" alt="infoicon" class=''/></div>
+								<div style="color: #8F9BC3;"><p id='' style='display:none;'></p></div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div align="center"><textarea id='obs_com' cols='25' rows='4'></textarea></div>
+							</td>
+						</tr>
+						<tr>
+							<td align="center"><div style="background-color:#deebf7;"> Duration <img src="images/Information_icon.png" width="12" height="12" alt="infoicon" class=''/></div>
+								<div style="color: #8F9BC3;"><p id='' style='display:none;'></p></div>
+							</td>
+							<td align="center"><div style="background-color:#deebf7;">Urgency	<img src="images/Information_icon.png" width="12" height="12" alt="infoicon" class=''/></div>
+								<div style="color: #8F9BC3;"><p id='' style='display:none;'></p></div>
+							</td>
+						</tr>
+						<tr>
+							<td align="center"><select id='selDur' name='D1'>
+								<option>Short (< 1 day)</option>
+								<option>Medium (1-7 days)</option>
+								<option>Long (> 7 days)</option>
+							</select></td>
+							<td align="center"><select id='selPriority' name='D1'>
+								<option>Low</option><option>Medium</option><option>High</option>
+							</select></td>
+						</tr>
+					</table>
+					<table style="width:100%"><tr><td width="50%" align="center" bgcolor="#fe9929"><p id="back2" style="cursor: pointer">&#8679; Back</p></td><td align="center" bgcolor="#fe9929"><p id="continue2" style="cursor: pointer">Continue &#8681;</p></td></tr></table>
+				  </div>
+				  <!-- upload images -->
+				  <h3 id="upload_img">Upload Image</h3>
+				  <div>
+					<table width="150px" border= "0" style="padding:10px">
+						<tr>
+							<td align="center">
+							<form id='myForm' action='upload.php' method='post' enctype='multipart/form-data'>
+								<input id='selfile1' type='file' size='25' name='myfile1' accept='image/*'>
+								<input id='selfile2' type='file' size='25' name='myfile2' accept='image/*'><br/><br/>
+								<input id='upload' type='submit' value='Upload'>
+							</form>
+							<div id='progress'>
+								<div id='bar'></div>
+								<div id='percent'>
+									0%
+								</div >
+							</div>
+							<br/>
+							<div id='message'></div></td>
+						</tr>
+					</table>
+					<table style="width:100%"><tr><td width="50%" align="center" bgcolor="#fe9929"><p id="back3" style="cursor: pointer">&#8679; Back</p></td><td align="center" bgcolor="#fe9929"><p id="continue3" style="cursor: pointer">Continue &#8681;</p></td></tr></table>
+				  </div>
+				  <!-- feedback -->
+				  <h3 id="feedback_tab">Feedback</h3>
+				  <div>
+					<table style="width:100%; font-family:Arial,Helvetica,sans-serif;">
+						<tr>
+							<td>Help us improve our reporting tool with your feedback:</td>
+						</tr>
+						<tr>
+							<td align="center">
+							<textarea id='feedback' cols='25' rows='4'></textarea><br/></td>
+						</tr>
+						<tr>
+							<td><h2>Thank you & Keep participating!</h2></td>
+						</tr>
+					</table>
+					<table style="width:100%"><tr><td width="50%" align="center" bgcolor="#fe9929"><p id="back4" style="cursor: pointer">&#8679; Back</p></td><td align="center" bgcolor="#fe9929"><p id="continue4" style="cursor: pointer" class="next_submit">Submit</p></td></tr></table>
+				  </div>
+				  <!-- data management -->
+				  <h3 id="review_tab">Data Management</h3>
+				  <div>
+				  	<div id="info">
+						Use Name:
+						<input id="use_id__" type="text" name="nameId"/>
+						Password:
+						<input id="password" type="password" />
+						<input id="submit_id" type="button" value="Login"/>
+					</div>
+					<div id="test" class="test">
+						<h2>Welcome, Admin!</h2><br/><br/>
+						<p style="color:#67a9cf">Export obstacles to KML:</p><button type="button" id="export2kml">Export KML</button><br/><br/>
+						<p style="color:#67a9cf">Export obstacles to CSV:</p><button type="button" id="export2csv">Export CSV</button><br/><br/>
+						<p style="color:#67a9cf">View/Edit Records:</p>click <a href="records.html" target="_blank">here</a><br/><br/>
+						<!-- <p style="color:#67a9cf">View/Edit Obstacles:</p>click <a href="obstacles.html" target="_blank">here</a><br/><br/> -->
+						<p style="color:#67a9cf">Create/Edit Obstacles (NEW):</p>click <a href="createobstacles.html" target="_blank">here</a><br/><br/>
+						<!-- <p style="color:#67a9cf">Obstacles Management (create obstacles):</p>click <a href="DataTables/examples/server_side/server_side.html" target="_blank">here</a> -->		
+					</div>
+				</div>
+				</div>
+			</td>
+			<td><div id="map_canvas"></div></td>
+		</tr>
+	</table>	
+	</body>
+</html>
