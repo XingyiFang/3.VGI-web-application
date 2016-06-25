@@ -1,0 +1,32 @@
+#map-canvas {
+	width: 100%;
+	height: 300px;
+}
+
+#percent {
+	text-align: center;
+}
+
+#obs_type_selection td {
+	padding: 10px;
+}
+
+#obs_type_selection img {
+	height: 50px;
+}
+
+#submitted-text {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	color: green;
+	text-align:center;
+}
+
+#submitted-text span {
+	width: 100%;
+	height: 150px;
+	position: absolute;
+	top: 0; left: 0; right: 0; bottom: 0;
+	margin: auto;
+}
