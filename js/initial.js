@@ -141,10 +141,6 @@ function addPoint(e) {
 };
 
 function HomeControl(controlDiv, map) {
-
-  // Set CSS styles for the DIV containing the control
-  // Setting padding to 5 px will offset the control
-  // from the edge of the map
   controlDiv.style.paddingRight = '10px';
   controlDiv.style.paddingTop = '5px';
   // Set CSS for the control border
@@ -180,10 +176,6 @@ function HomeControl(controlDiv, map) {
 };
 
 function HomeControl2(controlDiv, map) {
-
-  // Set CSS styles for the DIV containing the control
-  // Setting padding to 5 px will offset the control
-  // from the edge of the map
   controlDiv.style.paddingRight = '10px';
   controlDiv.style.paddingTop = '5px';
   // Set CSS for the control border
